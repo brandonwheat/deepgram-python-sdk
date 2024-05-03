@@ -250,35 +250,35 @@ class DeepgramClient:
             parent = ""
             fileName = ""
             className = ""
-            match self.parent:
-                case "manage":
-                    parent = "manage"
-                    fileName = "client"
-                    className = "ManageClient"
-                case "asyncmanage":
-                    parent = "manage"
-                    fileName = "async_client"
-                    className = "AsyncManageClient"
-                case "speak":
-                    parent = "speak"
-                    fileName = "client"
-                    className = "SpeakClient"
-                case "asyncspeak":
-                    parent = "speak"
-                    fileName = "async_client"
-                    className = "AsyncSpeakClient"
-                case "onprem":
-                    parent = "onprem"
-                    fileName = "client"
-                    className = "OnPremClient"
-                case "asynconprem":
-                    parent = "onprem"
-                    fileName = "async_client"
-                    className = "AsyncOnPremClient"
-                case _:
-                    self.logger.error("parent unknown: %s", self.parent)
-                    self.logger.debug("Version.v LEAVE")
-                    raise DeepgramModuleError("Invalid parent type")
+
+            if self.parent == "manage":
+                parent = "manage"
+                fileName = "client"
+                className = "ManageClient"
+            elif self.parent == "asyncmanage":
+                parent = "manage"
+                fileName = "async_client"
+                className = "AsyncManageClient"
+            elif self.parent == "speak":
+                parent = "speak"
+                fileName = "client"
+                className = "SpeakClient"
+            elif self.parent == "asyncspeak":
+                parent = "speak"
+                fileName = "async_client"
+                className = "AsyncSpeakClient"
+            elif self.parent == "onprem":
+                parent = "onprem"
+                fileName = "client"
+                className = "OnPremClient"
+            elif self.parent == "asynconprem":
+                parent = "onprem"
+                fileName = "async_client"
+                className = "AsyncOnPremClient"
+            else:
+                self.logger.error("parent unknown: %s", self.parent)
+                self.logger.debug("Version.v LEAVE")
+                raise DeepgramModuleError("Invalid parent type")
 
             # create class path
             path = f"deepgram.clients.{parent}.v{version}.{fileName}"

@@ -6,8 +6,8 @@ from setuptools import setup, find_packages
 import os.path
 import sys
 
-if sys.version_info < (3, 10):
-    sys.exit("Sorry, Python < 3.10 is not supported")
+if sys.version_info < (3, 9):
+    sys.exit("Sorry, Python < 3.9 is not supported")
 
 with open("README.md", "r", encoding="utf-8") as fh:
     LONG_DESCRIPTION = fh.read()

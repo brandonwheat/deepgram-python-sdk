@@ -121,27 +121,26 @@ class Listen:
             parent = ""
             fileName = ""
             className = ""
-            match self.parent:
-                case "live":
-                    parent = "live"
-                    fileName = "client"
-                    className = "LiveClient"
-                case "asynclive":
-                    parent = "live"
-                    fileName = "async_client"
-                    className = "AsyncLiveClient"
-                case "prerecorded":
-                    parent = "prerecorded"
-                    fileName = "client"
-                    className = "PreRecordedClient"
-                case "asyncprerecorded":
-                    parent = "prerecorded"
-                    fileName = "async_client"
-                    className = "AsyncPreRecordedClient"
-                case _:
-                    self.logger.error("parent unknown: %s", self.parent)
-                    self.logger.debug("Version.v LEAVE")
-                    raise DeepgramModuleError("Invalid parent type")
+            if self.parent == "live":
+                parent = "live"
+                fileName = "client"
+                className = "LiveClient"
+            elif self.parent == "asynclive":
+                parent = "live"
+                fileName = "async_client"
+                className = "AsyncLiveClient"
+            elif self.parent == "prerecorded":
+                parent = "prerecorded"
+                fileName = "client"
+                className = "PreRecordedClient"
+            elif self.parent == "asyncprerecorded":
+                parent = "prerecorded"
+                fileName = "async_client"
+                className = "AsyncPreRecordedClient"
+            else:
+                self.logger.error("parent unknown: %s", self.parent)
+                self.logger.debug("Version.v LEAVE")
+                raise DeepgramModuleError("Invalid parent type")
 
             # create class path
             path = f"deepgram.clients.{parent}.v{version}.{fileName}"

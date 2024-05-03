@@ -103,37 +103,36 @@ class ClientOptionsFromEnv(DeepgramClientOptions):
             if _loglevel != "":
                 verbose = int(_loglevel)
             if type(verbose) != int:
-                match verbose:
-                    case "NOTSET":
-                        self.logger.notice("Logging level is set to NOTSET")
-                        verbose = logging.NOTSET
-                    case "SPAM":
-                        self.logger.notice("Logging level is set to SPAM")
-                        verbose = logging.SPAM
-                    case "DEBUG":
-                        self.logger.notice("Logging level is set to DEBUG")
-                        verbose = logging.DEBUG
-                    case "VERBOSE":
-                        self.logger.notice("Logging level is set to VERBOSE")
-                        verbose = logging.VERBOSE
-                    case "NOTICE":
-                        self.logger.notice("Logging level is set to NOTICE")
-                        verbose = logging.NOTICE
-                    case "WARNING":
-                        self.logger.notice("Logging level is set to WARNING")
-                        verbose = logging.WARNING
-                    case "SUCCESS":
-                        self.logger.notice("Logging level is set to SUCCESS")
-                        verbose = logging.SUCCESS
-                    case "ERROR":
-                        self.logger.notice("Logging level is set to ERROR")
-                        verbose = logging.ERROR
-                    case "CRITICAL":
-                        self.logger.notice("Logging level is set to CRITICAL")
-                        verbose = logging.CRITICAL
-                    case _:
-                        self.logger.notice("Logging level is set to WARNING")
-                        verbose = logging.WARNING
+                if verbose == "NOTSET":
+                    self.logger.notice("Logging level is set to NOTSET")
+                    verbose = logging.NOTSET
+                elif verbose == "SPAM":
+                    self.logger.notice("Logging level is set to SPAM")
+                    verbose = logging.SPAM
+                elif verbose == "DEBUG":
+                    self.logger.notice("Logging level is set to DEBUG")
+                    verbose = logging.DEBUG
+                elif verbose == "VERBOSE":
+                    self.logger.notice("Logging level is set to VERBOSE")
+                    verbose = logging.VERBOSE
+                elif verbose == "NOTICE":
+                    self.logger.notice("Logging level is set to NOTICE")
+                    verbose = logging.NOTICE
+                elif verbose == "WARNING":
+                    self.logger.notice("Logging level is set to WARNING")
+                    verbose = logging.WARNING
+                elif verbose == "SUCCESS":
+                    self.logger.notice("Logging level is set to SUCCESS")
+                    verbose = logging.SUCCESS
+                elif verbose == "ERROR":
+                    self.logger.notice("Logging level is set to ERROR")
+                    verbose = logging.ERROR
+                elif verbose == "CRITICAL":
+                    self.logger.notice("Logging level is set to CRITICAL")
+                    verbose = logging.CRITICAL
+                else:
+                    self.logger.notice("Logging level is set to WARNING")
+                    verbose = logging.WARNING
         self.logger.notice(f"Logging level is set to {verbose}")
 
         if headers is None:

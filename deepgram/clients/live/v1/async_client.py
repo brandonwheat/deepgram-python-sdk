@@ -204,78 +204,78 @@ class AsyncLiveClient:
                 response_type = data.get("type")
                 self.logger.debug("response_type: %s, data: %s", response_type, data)
 
-                match response_type:
-                    case LiveTranscriptionEvents.Open.value:
-                        result = OpenResponse.from_json(message)
-                        self.logger.verbose("OpenResponse: %s", result)
-                        await self._emit(
-                            LiveTranscriptionEvents.Open,
-                            open=result,
-                            **dict(self.kwargs),
-                        )
-                    case LiveTranscriptionEvents.Transcript.value:
-                        result = LiveResultResponse.from_json(message)
-                        self.logger.verbose("LiveResultResponse: %s", result)
-                        await self._emit(
-                            LiveTranscriptionEvents.Transcript,
-                            result=result,
-                            **dict(self.kwargs),
-                        )
-                    case LiveTranscriptionEvents.Metadata.value:
-                        result = MetadataResponse.from_json(message)
-                        self.logger.verbose("MetadataResponse: %s", result)
-                        await self._emit(
-                            LiveTranscriptionEvents.Metadata,
-                            metadata=result,
-                            **dict(self.kwargs),
-                        )
-                    case LiveTranscriptionEvents.SpeechStarted.value:
-                        result = SpeechStartedResponse.from_json(message)
-                        self.logger.verbose("SpeechStartedResponse: %s", result)
-                        await self._emit(
-                            LiveTranscriptionEvents.SpeechStarted,
-                            speech_started=result,
-                            **dict(self.kwargs),
-                        )
-                    case LiveTranscriptionEvents.UtteranceEnd.value:
-                        result = UtteranceEndResponse.from_json(message)
-                        self.logger.verbose("UtteranceEndResponse: %s", result)
-                        await self._emit(
-                            LiveTranscriptionEvents.UtteranceEnd,
-                            utterance_end=result,
-                            **dict(self.kwargs),
-                        )
-                    case LiveTranscriptionEvents.Close.value:
-                        result = CloseResponse.from_json(message)
-                        self.logger.verbose("CloseResponse: %s", result)
-                        await self._emit(
-                            LiveTranscriptionEvents.Close,
-                            close=result,
-                            **dict(self.kwargs),
-                        )
-                    case LiveTranscriptionEvents.Error.value:
-                        result = ErrorResponse.from_json(message)
-                        self.logger.verbose("LiveTranscriptionEvents: %s", result)
-                        await self._emit(
-                            LiveTranscriptionEvents.Error,
-                            error=result,
-                            **dict(self.kwargs),
-                        )
-                    case _:
-                        self.logger.warning(
-                            "Unknown Message: response_type: %s, data: %s",
-                            response_type,
-                            data,
-                        )
-                        unhandled = UnhandledResponse(
-                            type=LiveTranscriptionEvents.Unhandled.value,
-                            raw=message,
-                        )
-                        self._emit(
-                            LiveTranscriptionEvents.Unhandled,
-                            unhandled=unhandled,
-                            **dict(self.kwargs),
-                        )
+                response_type_value = response_type
+                if response_type_value == LiveTranscriptionEvents.Open.value:
+                    result = OpenResponse.from_json(message)
+                    self.logger.verbose("OpenResponse: %s", result)
+                    await self._emit(
+                        LiveTranscriptionEvents.Open,
+                        open=result,
+                        **dict(self.kwargs),
+                    )
+                elif response_type_value == LiveTranscriptionEvents.Transcript.value:
+                    result = LiveResultResponse.from_json(message)
+                    self.logger.verbose("LiveResultResponse: %s", result)
+                    await self._emit(
+                        LiveTranscriptionEvents.Transcript,
+                        result=result,
+                        **dict(self.kwargs),
+                    )
+                elif response_type_value == LiveTranscriptionEvents.Metadata.value:
+                    result = MetadataResponse.from_json(message)
+                    self.logger.verbose("MetadataResponse: %s", result)
+                    await self._emit(
+                        LiveTranscriptionEvents.Metadata,
+                        metadata=result,
+                        **dict(self.kwargs),
+                    )
+                elif response_type_value == LiveTranscriptionEvents.SpeechStarted.value:
+                    result = SpeechStartedResponse.from_json(message)
+                    self.logger.verbose("SpeechStartedResponse: %s", result)
+                    await self._emit(
+                        LiveTranscriptionEvents.SpeechStarted,
+                        speech_started=result,
+                        **dict(self.kwargs),
+                    )
+                elif response_type_value == LiveTranscriptionEvents.UtteranceEnd.value:
+                    result = UtteranceEndResponse.from_json(message)
+                    self.logger.verbose("UtteranceEndResponse: %s", result)
+                    await self._emit(
+                        LiveTranscriptionEvents.UtteranceEnd,
+                        utterance_end=result,
+                        **dict(self.kwargs),
+                    )
+                elif response_type_value == LiveTranscriptionEvents.Close.value:
+                    result = CloseResponse.from_json(message)
+                    self.logger.verbose("CloseResponse: %s", result)
+                    await self._emit(
+                        LiveTranscriptionEvents.Close,
+                        close=result,
+                        **dict(self.kwargs),
+                    )
+                elif response_type_value == LiveTranscriptionEvents.Error.value:
+                    result = ErrorResponse.from_json(message)
+                    self.logger.verbose("LiveTranscriptionEvents: %s", result)
+                    await self._emit(
+                        LiveTranscriptionEvents.Error,
+                        error=result,
+                        **dict(self.kwargs),
+                    )
+                else:
+                    self.logger.warning(
+                        "Unknown Message: response_type: %s, data: %s",
+                        response_type,
+                        data,
+                    )
+                    unhandled = UnhandledResponse(
+                        type=LiveTranscriptionEvents.Unhandled.value,
+                        raw=message,
+                    )
+                    self._emit(
+                        LiveTranscriptionEvents.Unhandled,
+                        unhandled=unhandled,
+                        **dict(self.kwargs),
+                    )
 
             except websockets.exceptions.ConnectionClosedOK as e:
                 self.logger.notice(f"_listening({e.code}) exiting gracefully")

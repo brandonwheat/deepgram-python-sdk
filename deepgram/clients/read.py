@@ -87,19 +87,18 @@ class Read:
             parent = ""
             fileName = ""
             className = ""
-            match self.parent:
-                case "analyze":
-                    parent = "analyze"
-                    fileName = "client"
-                    className = "AnalyzeClient"
-                case "asyncanalyze":
-                    parent = "analyze"
-                    fileName = "async_client"
-                    className = "AsyncAnalyzeClient"
-                case _:
-                    self.logger.error("parent unknown: %s", self.parent)
-                    self.logger.debug("Version.v LEAVE")
-                    raise DeepgramModuleError("Invalid parent type")
+            if self.parent == "analyze":
+                parent = "analyze"
+                fileName = "client"
+                className = "AnalyzeClient"
+            elif self.parent == "asyncanalyze":
+                parent = "analyze"
+                fileName = "async_client"
+                className = "AsyncAnalyzeClient"
+            else:
+                self.logger.error("parent unknown: %s", self.parent)
+                self.logger.debug("Version.v LEAVE")
+                raise DeepgramModuleError("Invalid parent type")
 
             # create class path
             path = f"deepgram.clients.{parent}.v{version}.{fileName}"
